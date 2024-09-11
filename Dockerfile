@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . /app
 
 # Install dependencies from requirements.txt
-RUN pip install --no-cache-dir -r /app/requirements.txt
+RUN pip install --no-cache-dir -r /analytics/requirements.txt
 
 # Expose port 5153
 EXPOSE 5153
