@@ -129,3 +129,58 @@ Please provide up to 3 sentences for each suggestion. Additional content in your
 ### Best Practices
 * Dockerfile uses an appropriate base image for the application being deployed. Complex commands in the Dockerfile include a comment describing what it is doing.
 * The Docker images use semantic versioning with three numbers separated by dots, e.g. `1.2.1` and  versioning is visible in the  screenshot. See [Semantic Versioning](https://semver.org/) for more details.
+
+git config --global user.email = "kultarsinghportal@gmail.com"
+git config --global user.name = "Kultar Singh"
+
+eksctl create cluster --name coworking-space-cluster --region us-east-1 --nodegroup-name coworking-space-nodes --node-type t3.small --nodes 1 --nodes-min 1 --nodes-max 2
+aws eks --region us-east-1 update-kubeconfig --name coworking-space-cluster
+
+kubectl config current-context
+kubectl config view
+kubectl get namespace
+
+Apply the yaml
+
+kubectl apply -f pvc.yaml
+kubectl apply -f pv.yaml
+
+kubectl get storageclass
+
+Apply the yaml
+
+kubectl apply -f postgresql-deployment.yaml
+
+Database name: mydatabase
+User name: myuser
+Password: mypassword
+
+kubectl get pods
+
+kubectl exec -it postgresql-688c5c767c-rbssj -- bash
+psql -U myuser -d mydatabase
+\l
+
+kubectl apply -f postgresql-service.yaml
+kubectl get svc
+kubectl port-forward service/postgresql-service 5433:5432 &
+
+apt update
+apt install postgresql postgresql-contrib
+
+aws eks --region us-east-1 update-kubeconfig --name coworking-space-cluster
+
+export POSTGRES_PASSWORD=$(kubectl get secret --namespace default <SERVICE_NAME>-postgresql -o jsonpath="{.data.postgres-password}" | base64 -d)
+
+curl http://127.0.0.1:5153/api/reports/daily_usage
+curl http://127.0.0.1:5153/api/reports/user_visits
+
+curl http://10.124.16.90:5153/api/reports/user_visits
+
+docker build -t test-coworking-analytics .
+
+
+#At the end of the project
+eksctl delete cluster --name coworking-space-cluster --region us-east-1
+                   
+
