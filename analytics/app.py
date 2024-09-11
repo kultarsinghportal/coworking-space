@@ -9,6 +9,8 @@ from random import randint
 
 from config import app, db
 
+# Set logging level
+logging.basicConfig(level=logging.INFO)
 
 port_number = int(os.environ.get("APP_PORT", 5153))
 
@@ -33,7 +35,7 @@ def get_daily_visits():
     with app.app_context():
         result = db.session.execute(text("""
         SELECT Date(created_at) AS date,
-            Count(*)         AS visits
+               Count(*)         AS visits
         FROM   tokens
         WHERE  used_at IS NOT NULL
         GROUP  BY Date(created_at)
@@ -50,21 +52,22 @@ def get_daily_visits():
 
 @app.route("/api/reports/daily_usage", methods=["GET"])
 def daily_visits():
-    return jsonify(get_daily_visits)
+    # Call get_daily_visits, don't pass the function itself
+    return jsonify(get_daily_visits())
 
 
 @app.route("/api/reports/user_visits", methods=["GET"])
 def all_user_visits():
     result = db.session.execute(text("""
     SELECT t.user_id,
-        t.visits,
-        users.joined_at
+           t.visits,
+           users.joined_at
     FROM   (SELECT tokens.user_id,
-                Count(*) AS visits
+                   Count(*) AS visits
             FROM   tokens
             GROUP  BY user_id) AS t
         LEFT JOIN users
-                ON t.user_id = users.id;
+               ON t.user_id = users.id;
     """))
 
     response = {}
