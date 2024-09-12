@@ -5,10 +5,10 @@ FROM public.ecr.aws/docker/library/python:3.10-slim-buster
 WORKDIR /app
 
 # Copy the contents of the current directory to /app in the container
-COPY . /app
+COPY analytics/ /app/analytics/
 
 # Install dependencies from requirements.txt
-RUN pip install --no-cache-dir -r /analytics/requirements.txt
+RUN pip install --no-cache-dir -r /app/analytics/requirements.txt
 
 # Expose port 5153
 EXPOSE 5153
@@ -21,4 +21,4 @@ ENV DB_HOST=127.0.0.1
 ENV DB_PORT=5432
 ENV DB_NAME=mydatabase
 # Run the application when the container starts
-CMD ["python", "app.py"]
+CMD ["python", "analytics/app.py"]
