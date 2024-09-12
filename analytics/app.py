@@ -20,9 +20,9 @@ def health_check():
 @app.route("/readiness_check")
 def readiness_check():
     try:
-        # Fixed indentation
-        result = db.engine.execute("SELECT COUNT(*) FROM tokens")
-        count = result.scalar()
+        # Use raw SQL with db.session.execute
+        result = db.session.execute(text("SELECT COUNT(*) FROM tokens"))
+        count = result.scalar()  # Get the count from the result
     except Exception as e:
         app.logger.error(f"Readiness check failed: {e}")
         return "failed", 500
