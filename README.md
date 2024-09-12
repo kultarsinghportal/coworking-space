@@ -157,7 +157,7 @@ Password: mypassword
 
 kubectl get pods
 
-kubectl exec -it postgresql-688c5c767c-rbssj -- bash
+kubectl exec -it postgresql-688c5c767c-rrfqx -- bash
 psql -U myuser -d mydatabase
 \l
 
@@ -177,6 +177,8 @@ curl http://127.0.0.1:5153/api/reports/user_visits
 
 curl http://10.124.16.90:5153/api/reports/user_visits
 
+curl http://a7a3e804dc8374e54b9197a1205f6c00-106400238.us-east-1.elb.amazonaws.com/api/reports/daily_usage
+
 docker build -t test-coworking-analytics .
 
 
@@ -184,3 +186,8 @@ docker build -t test-coworking-analytics .
 eksctl delete cluster --name coworking-space-cluster --region us-east-1
                    
 
+kubectl exec -it coworking-c4d8ff58c-wjrq4 -- curl http://localhost:5153/readiness_check
+
+
+PGPASSWORD="$DB_PASSWORD" psql --host postgresql-service -U myuser -d mydatabase -p 5432 -f 1_create_tables.sql
+kubectl exec -it postgresql-688c5c767c-gtjnm -- /bin/bash
